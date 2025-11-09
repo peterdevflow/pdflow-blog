@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "home": "Főoldal",
+    "blog": "Blog",
+    "about": "Rólam",
+    "contact": "Kapcsolat"
+  },
+  "blog": {
+    "title": "Blog",
+    "search": "Keresés a bejegyzésekben...",
+    "allTags": "Összes címke",
+    "loading": "Bejegyzések betöltése...",
+    "readMore": "Olvass tovább",
+    "noPosts": "Nincs találat",
+    "published": "Közzétéve",
+    "readingTime": "perc olvasás"
+  },
+  "home": {
+    "title": "Blogom",
+    "subtitle": "Személyes jegyzetek és kísérletek a Next.js-szel, TypeScript-tel és a modern webplatformmal.",
+    "actualPosts": "Aktuális bejegyzések",
+    "projectPosts": "Projekt bejegyzések",
+    "allPosts": "Összes bejegyzés"
+  },
+  "social": {
+    "share": "Oszd meg barátaiddal!",
+    "copyLink": "Link másolása",
+    "copied": "Másolva!"
+  },
+  "footer": {
+    "copyright": "© 2025 Minden jog fenntartva."
+  },
+  "404": {
+    "title": "Az oldal nem található",
+    "description": "A keresett oldal nem létezik.",
+    "backHome": "Vissza a főoldalra"
+  }
+}

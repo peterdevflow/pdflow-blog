@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "blog": {
+    "title": "Blog",
+    "search": "Search posts...",
+    "allTags": "All tags",
+    "loading": "Loading posts...",
+    "readMore": "Read more",
+    "noPosts": "No posts found",
+    "published": "Published",
+    "readingTime": "min read"
+  },
+  "home": {
+    "title": "My Blog",
+    "subtitle": "Personal notes and experiments with Next.js, TypeScript, and the modern web platform.",
+    "actualPosts": "Current Posts",
+    "projectPosts": "Project Posts",
+    "allPosts": "All Posts"
+  },
+  "social": {
+    "share": "Share with friends!",
+    "copyLink": "Copy link",
+    "copied": "Copied!"
+  },
+  "footer": {
+    "copyright": "© 2025 All rights reserved."
+  },
+  "404": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist.",
+    "backHome": "Back to home"
+  }
+}

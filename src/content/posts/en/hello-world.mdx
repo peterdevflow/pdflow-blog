@@ -1,0 +1,27 @@
+---
+title: "Hello, World"
+date: "2025-01-06"
+excerpt: "Starting the blog with a quick overview of the new MDX-based setup."
+tags:
+  - Life
+  - Tech
+  - Actual
+---
+
+Welcome to the new blog! This project now reads content from simple Markdown files and transforms them into React components using **MDX**.
+
+```tsx
+export function Hello({ name }: { name: string }) {
+  return <p>Hello, {name}! 👋</p>;
+}
+```
+
+You can embed React components directly alongside your Markdown. This means dynamic UI elements, highlights, or interactive examples live right where you write.
+
+## What's Next?
+
+- Write posts in the `src/content/posts` folder.
+- Add front matter for metadata.
+- Use any React component inline when your Markdown needs a little help.
+
+Happy writing!
