@@ -1,70 +1,65 @@
 import { Metadata } from "next";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Rólam",
-  description: "Tudj meg többet rólam és a munkámról.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("about");
+
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+  };
+}
 
 export default function AboutPage() {
+  const t = useTranslations("about");
+
   return (
     <div className="container mx-auto px-6 py-12 max-w-4xl">
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight">Rólam</h1>
+          <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Szia! Egy szenvedélyes fejlesztő vagyok, aki imád csodálatos webes
-            élményeket létrehozni.
+            {t("subtitle")}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold">Az Utam</h2>
+            <h2 className="text-2xl font-semibold">{t("journey.title")}</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Több éve vagyok jelen a webfejlesztés világában, folyamatosan
-              tanulok és alkalmazkodom az új technológiákhoz. Az utam egyszerű
-              HTML-lel és CSS-szel kezdődött, és modern keretrendszerekkel és
-              eszközökkel bővült.
+              {t("journey.description1")}
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Amikor nem kódolok, új technológiák felfedezésével, nyílt
-              forráskódú projektekhez való hozzájárulással vagy
-              tudásmegosztással találkozhatsz a fejlesztői közösségben.
+              {t("journey.description2")}
             </p>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold">Mit Csinálok</h2>
+            <h2 className="text-2xl font-semibold">{t("skills.title")}</h2>
             <ul className="space-y-2 text-muted-foreground">
-              <li>• Full-stack webfejlesztés</li>
-              <li>• React és Next.js alkalmazások</li>
-              <li>• TypeScript és modern JavaScript</li>
-              <li>• UI/UX tervezés és megvalósítás</li>
-              <li>• Teljesítmény optimalizálás</li>
-              <li>• Nyílt forráskódú hozzájárulások</li>
+              {t.raw("skills.items").map((item: string, index: number) => (
+                <li key={index}>• {item}</li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div className="bg-muted/50 rounded-lg p-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            Lépj Velem Kapcsolatba
-          </h2>
+          <h2 className="text-2xl font-semibold mb-4">{t("contact.title")}</h2>
           <p className="text-muted-foreground mb-4">
-            Mindig nyitott vagyok új lehetőségekre és együttműködésekre.
-            Nyugodtan lépj kapcsolatba, ha szeretnél együtt dolgozni vagy csak
-            technológiáról beszélgetni!
+            {t("contact.description")}
           </p>
           <div className="flex gap-4">
             <a
               href="mailto:hello@example.com"
               className="text-primary hover:underline"
             >
-              hello@example.com
+              {t("contact.email")}
             </a>
             <span className="text-muted-foreground">•</span>
             <a href="/contact" className="text-primary hover:underline">
-              Kapcsolatfelvétel
+              {t("contact.contactLink")}
             </a>
           </div>
         </div>

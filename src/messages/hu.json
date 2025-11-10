@@ -30,6 +30,32 @@
   "footer": {
     "copyright": "© 2025 Minden jog fenntartva."
   },
+  "about": {
+    "title": "Rólam",
+    "subtitle": "Szia! Egy szenvedélyes fejlesztő vagyok, aki imád csodálatos webes élményeket létrehozni.",
+    "journey": {
+      "title": "Az Utam",
+      "description1": "Több éve vagyok jelen a webfejlesztés világában, folyamatosan tanulok és alkalmazkodom az új technológiákhoz. Az utam egyszerű HTML-lel és CSS-szel kezdődött, és modern keretrendszerekkel és eszközökkel bővült.",
+      "description2": "Amikor nem kódolok, új technológiák felfedezésével, nyílt forráskódú projektekhez való hozzájárulással vagy tudásmegosztással találkozhatsz a fejlesztői közösségben."
+    },
+    "skills": {
+      "title": "Mit Csinálok",
+      "items": [
+        "Full-stack webfejlesztés",
+        "React és Next.js alkalmazások",
+        "TypeScript és modern JavaScript",
+        "UI/UX tervezés és megvalósítás",
+        "Teljesítmény optimalizálás",
+        "Nyílt forráskódú hozzájárulások"
+      ]
+    },
+    "contact": {
+      "title": "Lépj Velem Kapcsolatba",
+      "description": "Mindig nyitott vagyok új lehetőségekre és együttműködésekre. Nyugodtan lépj kapcsolatba, ha szeretnél együtt dolgozni vagy csak technológiáról beszélgetni!",
+      "email": "hello@example.com",
+      "contactLink": "Kapcsolatfelvétel"
+    }
+  },
   "404": {
     "title": "Az oldal nem található",
     "description": "A keresett oldal nem létezik.",

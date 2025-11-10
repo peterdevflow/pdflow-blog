@@ -30,6 +30,32 @@
   "footer": {
     "copyright": "© 2025 All rights reserved."
   },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Hi! I'm a passionate developer who loves creating amazing web experiences.",
+    "journey": {
+      "title": "My Journey",
+      "description1": "I've been in the web development world for several years, constantly learning and adapting to new technologies. My journey started with simple HTML and CSS, and has expanded to modern frameworks and tools.",
+      "description2": "When I'm not coding, you can find me exploring new technologies, contributing to open source projects, or sharing knowledge in the developer community."
+    },
+    "skills": {
+      "title": "What I Do",
+      "items": [
+        "Full-stack web development",
+        "React and Next.js applications",
+        "TypeScript and modern JavaScript",
+        "UI/UX design and implementation",
+        "Performance optimization",
+        "Open source contributions"
+      ]
+    },
+    "contact": {
+      "title": "Get In Touch",
+      "description": "I'm always open to new opportunities and collaborations. Feel free to reach out if you'd like to work together or just chat about technology!",
+      "email": "hello@example.com",
+      "contactLink": "Contact me"
+    }
+  },
   "404": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist.",
