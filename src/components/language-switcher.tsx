@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const languages = [
-  { code: "hu", name: "Magyar", flag: "🇭🇺" },
-  { code: "en", name: "English", flag: "🇺🇸" },
+  { code: "hu", name: "HU", flag: "🇭🇺" },
+  { code: "en", name: "EN", flag: "🇺🇸" },
 ] as const;
 
 export function LanguageSwitcher() {

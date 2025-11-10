@@ -1,21 +1,72 @@
-import createMiddleware from 'next-intl/middleware';
-import { locales } from './src/i18n/request';
+import createMiddleware from "next-intl/middleware";
+import { NextRequest, NextResponse } from "next/server";
+import { locales } from "./src/i18n/request";
 
-export default createMiddleware({
-  // A list of all locales that are supported
-  locales,
+function getLocaleFromAcceptLanguage(acceptLanguage: string | null): string {
+  if (!acceptLanguage) return "en";
 
-  // Used when no locale matches
-  defaultLocale: 'hu',
+  // Parse Accept-Language header
+  const languages = acceptLanguage
+    .split(",")
+    .map((lang) => {
+      const [locale, q = "1"] = lang.trim().split(";q=");
+      return {
+        locale: locale.split("-")[0], // Get language code (e.g., 'en' from 'en-US')
+        quality: parseFloat(q),
+      };
+    })
+    .sort((a, b) => b.quality - a.quality);
 
-  // Automatically detect the user's locale based on:
-  // 1. The `locale` URL parameter (e.g. `/en/about`)
-  // 2. A cookie named `NEXT_LOCALE`
-  // 3. The `Accept-Language` header
-  localeDetection: true
-});
+  // Check if any preferred language matches our supported locales
+  for (const lang of languages) {
+    if (locales.includes(lang.locale as any)) {
+      return lang.locale;
+    }
+  }
+
+  return "en"; // Default fallback
+}
+
+export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Skip middleware for API routes, static files, etc.
+  if (
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/_next") ||
+    pathname.includes(".")
+  ) {
+    return;
+  }
+
+  // If accessing root path without locale prefix, redirect based on Accept-Language
+  if (pathname === "/") {
+    const acceptLanguage = request.headers.get("accept-language");
+    const detectedLocale = getLocaleFromAcceptLanguage(acceptLanguage);
+
+    // Redirect to the detected locale
+    const url = request.nextUrl.clone();
+    url.pathname = `/${detectedLocale}`;
+    return NextResponse.redirect(url);
+  }
+
+  // For all other paths, use next-intl middleware
+  return createMiddleware({
+    locales,
+    defaultLocale: "en",
+    localeDetection: false, // We handle detection manually above
+  })(request);
+}
 
 export const config = {
-  // Match only internationalized pathnames
-  matcher: ['/', '/(hu|en)/:path*']
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

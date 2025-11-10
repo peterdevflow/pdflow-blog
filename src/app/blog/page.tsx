@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { BlogSkeleton } from "@/components/blog-skeleton";
 
 const dateFormatter = new Intl.DateTimeFormat("hu-HU", { dateStyle: "medium" });
@@ -19,10 +20,11 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const locale = useLocale();
 
   useEffect(() => {
     // Fetch posts from the API
-    fetch("/api/posts")
+    fetch(`/api/posts?locale=${locale}`)
       .then((response) => response.json())
       .then((data) => {
         setAllPosts(data);

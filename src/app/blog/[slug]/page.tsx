@@ -25,10 +25,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const { slug, locale } = await params;
+  const post = await getPostBySlug(slug, locale as Locale);
 
   if (!post) {
     return {
