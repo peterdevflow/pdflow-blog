@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "Personal notes and experiments with Next.js, TypeScript, and the modern web platform.",
   alternates: {
     types: {
-      "application/rss+xml": "/feed.xml",
+      "application/rss+xml": "/api/feed",
     },
   },
 };
