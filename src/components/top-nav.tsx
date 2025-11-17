@@ -56,7 +56,7 @@ export function TopNav() {
           >
             HH
           </span>
-          <span className="text-lg font-semibold tracking-wide">Blog name</span>
+          <span className="text-lg font-semibold tracking-wide">HH Blog</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-4">

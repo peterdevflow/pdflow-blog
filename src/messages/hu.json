@@ -7,13 +7,23 @@
   },
   "blog": {
     "title": "Blog",
+    "subtitle": "Személyes jegyzetek és kísérletek a Next.js-szel, MDX-szel és a web-bel.",
     "search": "Keresés a bejegyzésekben...",
     "allTags": "Összes címke",
+    "allPosts": "Összes bejegyzés",
     "loading": "Bejegyzések betöltése...",
     "readMore": "Olvass tovább",
     "noPosts": "Nincs találat",
+    "noPostsForSearch": "Nem található bejegyzés a \"{query}\" keresésre.",
+    "noPostsForTag": "Nem található bejegyzés a kiválasztott címkével.",
+    "clearSearch": "Keresés törlése",
     "published": "Közzétéve",
-    "readingTime": "perc olvasás"
+    "readingTime": "perc olvasás",
+    "relatedPosts": "Kapcsolódó bejegyzések",
+    "previous": "Előző",
+    "next": "Következő",
+    "showingPage": "Oldal megjelenítése",
+    "of": "összesen"
   },
   "home": {
     "title": "Blogom",

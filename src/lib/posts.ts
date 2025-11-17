@@ -9,6 +9,9 @@ import rehypePrettyCode from "rehype-pretty-code";
 import { cache } from "react";
 import type { ReactNode } from "react";
 import type { CompileOptions } from "@mdx-js/mdx";
+import rehypeImgSize from "rehype-img-size";
+import { rehypeNextImage } from "./rehype-next-image";
+import { components } from "@/components/mdx-components";
 import env from "./env";
 import type { Locale } from "../i18n/request";
 
@@ -32,6 +35,7 @@ const calculateReadingTime = (text: string): number => {
 export type PostSummary = PostFrontmatter & {
   slug: string;
   readingTime?: number; // in minutes
+  views?: number; // view count
 };
 
 export type Post = PostSummary & {
@@ -60,6 +64,8 @@ const mdxOptions: MdOptions = {
         theme: "github-dark",
       },
     ],
+    rehypeImgSize,
+    rehypeNextImage,
   ],
 };
 
@@ -101,8 +107,22 @@ const readPostFile = async (slug: string, localeDirectory?: string) => {
   return file;
 };
 
+export type PaginatedPosts = {
+  posts: PostSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+};
+
 export const getPostSummaries = cache(
-  async (locale: Locale = "hu"): Promise<PostSummary[]> => {
+  async (
+    locale: Locale = "hu",
+    page: number = 1,
+    limit: number = 10
+  ): Promise<PostSummary[]> => {
     const localeDirectory = path.join(POSTS_DIRECTORY, locale);
     const entries = await fs.readdir(localeDirectory, { withFileTypes: true });
     const mdxFiles = entries.filter(
@@ -124,13 +144,73 @@ export const getPostSummaries = cache(
           slug,
           ...frontmatter,
           readingTime,
+          views: 0, // Will be populated by client-side hook
         };
       })
     );
 
-    return posts.sort(
+    const sortedPosts = posts.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
+
+    // Apply pagination
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    return sortedPosts.slice(startIndex, endIndex);
+  }
+);
+
+export const getPaginatedPostSummaries = cache(
+  async (
+    locale: Locale = "hu",
+    page: number = 1,
+    limit: number = 10
+  ): Promise<PaginatedPosts> => {
+    const localeDirectory = path.join(POSTS_DIRECTORY, locale);
+    const entries = await fs.readdir(localeDirectory, { withFileTypes: true });
+    const mdxFiles = entries.filter(
+      (entry) => entry.isFile() && entry.name.endsWith(".mdx")
+    );
+
+    const posts = await Promise.all(
+      mdxFiles.map(async (entry) => {
+        const slug = entry.name.replace(/\.mdx$/, "");
+        const file = await fs.readFile(
+          path.join(localeDirectory, entry.name),
+          "utf8"
+        );
+        const { data, content } = matter(file);
+        const frontmatter = ensureFrontmatter(data);
+        const readingTime = calculateReadingTime(content);
+
+        return {
+          slug,
+          ...frontmatter,
+          readingTime,
+          views: 0, // Will be populated by client-side hook
+        };
+      })
+    );
+
+    const sortedPosts = posts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+    const total = sortedPosts.length;
+    const totalPages = Math.ceil(total / limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedPosts = sortedPosts.slice(startIndex, endIndex);
+
+    return {
+      posts: paginatedPosts,
+      total,
+      page,
+      limit,
+      totalPages,
+      hasNextPage: page < totalPages,
+      hasPrevPage: page > 1,
+    };
   }
 );
 
@@ -145,6 +225,7 @@ export const getPostBySlug = cache(
           parseFrontmatter: true,
           mdxOptions,
         },
+        components,
       });
 
       const validatedFrontmatter = ensureFrontmatter(frontmatter);

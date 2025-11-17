@@ -2,10 +2,10 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { BlogSkeleton } from "@/components/blog-skeleton";
-
-const dateFormatter = new Intl.DateTimeFormat("hu-HU", { dateStyle: "medium" });
+import { Pagination } from "@/components/pagination";
 
 type Post = {
   slug: string;
@@ -13,6 +13,18 @@ type Post = {
   date: string;
   excerpt?: string;
   tags?: string[];
+  readingTime?: number;
+  views?: number;
+};
+
+type PaginatedResponse = {
+  posts: Post[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
 };
 
 export default function BlogPage() {
@@ -20,21 +32,43 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState<PaginatedResponse | null>(null);
   const locale = useLocale();
+  const t = useTranslations("blog");
+  const searchParams = useSearchParams();
+
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const postsPerPage = 6; // Show 6 posts per page for better UX
+
+  // Create locale-aware date formatter
+  const dateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(locale === "hu" ? "hu-HU" : "en-US", {
+        dateStyle: "medium",
+      }),
+    [locale]
+  );
 
   useEffect(() => {
-    // Fetch posts from the API
-    fetch(`/api/posts?locale=${locale}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setAllPosts(data);
-        setLoading(false);
-      })
-      .catch((error) => {
+    // Fetch posts from the API with pagination
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `/api/posts?locale=${locale}&page=${currentPage}&limit=${postsPerPage}&paginated=true`
+        );
+        const data: PaginatedResponse = await response.json();
+        setAllPosts(data.posts);
+        setPagination(data);
+      } catch (error) {
         console.error("Error fetching posts:", error);
+      } finally {
         setLoading(false);
-      });
-  }, [locale]);
+      }
+    };
+
+    fetchPosts();
+  }, [locale, currentPage, postsPerPage]);
 
   const allowedTags = useMemo(
     () => ["Actual", "Life", "Projects", "Tech", "Work", "Writing"],
@@ -42,8 +76,9 @@ export default function BlogPage() {
   );
 
   const allTags = useMemo(() => {
+    if (!pagination) return [];
     const tagSet = new Set<string>();
-    allPosts.forEach((post) => {
+    pagination.posts.forEach((post) => {
       post.tags?.forEach((tag) => {
         // Normalize tag to match allowed tags (case-insensitive)
         const normalizedTag = allowedTags.find(
@@ -55,7 +90,7 @@ export default function BlogPage() {
       });
     });
     return Array.from(tagSet).sort();
-  }, [allPosts, allowedTags]);
+  }, [pagination, allowedTags]);
 
   const filteredPosts = useMemo(() => {
     let posts = allPosts;
@@ -96,12 +131,9 @@ export default function BlogPage() {
     return (
       <section className="mx-auto flex min-h-[60vh] max-w-3xl flex-col justify-center px-6 py-20">
         <h1 className="text-4xl font-semibold tracking-tight text-foreground">
-          Blog
+          {t("title")}
         </h1>
-        <p className="mt-6 text-lg text-muted-foreground">
-          Még nincsenek bejegyzések. Hozz létre egy új MDX fájlt a{" "}
-          <code>src/content/posts</code> mappában a kezdéshez.
-        </p>
+        <p className="mt-6 text-lg text-muted-foreground">{t("noPosts")}</p>
       </section>
     );
   }
@@ -109,10 +141,9 @@ export default function BlogPage() {
     <section className="container mx-auto px-6 py-12 max-w-4xl">
       <header className="mb-12">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight">Blog</h1>
+          <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Személyes jegyzetek és kísérletek a Next.js-szel, MDX-szel és a
-            web-bel.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -136,7 +167,7 @@ export default function BlogPage() {
             </div>
             <input
               type="text"
-              placeholder="Keresés bejegyzésekben..."
+              placeholder={t("search")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="block w-full pl-10 pr-3 py-3 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
@@ -175,7 +206,7 @@ export default function BlogPage() {
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
               }`}
             >
-              Összes bejegyzés
+              {t("allPosts")}
             </button>
             {allTags.map((tag) => (
               <button
@@ -199,15 +230,15 @@ export default function BlogPage() {
           <div className="text-center py-12">
             <p className="text-muted-foreground">
               {searchQuery
-                ? `Nem található bejegyzés a "${searchQuery}" keresésre.`
-                : "Nem található bejegyzés a kiválasztott címkével."}
+                ? t("noPostsForSearch", { query: searchQuery })
+                : t("noPostsForTag")}
             </p>
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
                 className="mt-4 text-primary hover:text-primary/80 underline"
               >
-                Keresés törlése
+                {t("clearSearch")}
               </button>
             )}
           </div>
@@ -233,6 +264,16 @@ export default function BlogPage() {
               >
                 {dateFormatter.format(new Date(post.date))}
               </time>
+              {post.readingTime && (
+                <span className="text-sm text-muted-foreground">
+                  • {post.readingTime} {t("readingTime")}
+                </span>
+              )}
+              {post.views !== undefined && post.views > 0 && (
+                <span className="text-sm text-muted-foreground">
+                  • {post.views} views
+                </span>
+              )}
               <h2 className="mt-3 text-2xl font-medium leading-tight text-foreground">
                 <Link
                   href={`/blog/${post.slug}`}
@@ -250,12 +291,21 @@ export default function BlogPage() {
                 href={`/blog/${post.slug}`}
                 className="mt-6 inline-flex items-center text-sm font-medium text-primary transition group-hover:text-primary/80"
               >
-                Olvass tovább →
+                {t("readMore")} →
               </Link>
             </article>
           ))
         )}
       </div>
+
+      {/* Pagination */}
+      {pagination && (
+        <Pagination
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          baseUrl={`/${locale}/blog`}
+        />
+      )}
     </section>
   );
 }

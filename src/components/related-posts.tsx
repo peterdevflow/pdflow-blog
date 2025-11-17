@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
+import { useMemo } from "react";
 import type { PostSummary } from "@/lib/posts";
 
 interface RelatedPostsProps {
@@ -6,6 +8,18 @@ interface RelatedPostsProps {
 }
 
 export function RelatedPosts({ posts }: RelatedPostsProps) {
+  const t = useTranslations("blog");
+  const locale = useLocale();
+
+  // Create locale-aware date formatter
+  const dateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(locale === "hu" ? "hu-HU" : "en-US", {
+        dateStyle: "medium",
+      }),
+    [locale]
+  );
+
   if (posts.length === 0) {
     return null;
   }
@@ -13,7 +27,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
   return (
     <section className="mt-16 border-t border-border pt-12">
       <h2 className="text-2xl font-semibold text-foreground mb-8">
-        Kapcsolódó bejegyzések
+        {t("relatedPosts")}
       </h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
@@ -35,9 +49,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
               className="text-sm uppercase tracking-wide text-muted-foreground"
               dateTime={post.date}
             >
-              {new Intl.DateTimeFormat("hu-HU", { dateStyle: "medium" }).format(
-                new Date(post.date)
-              )}
+              {dateFormatter.format(new Date(post.date))}
             </time>
             <h3 className="mt-3 text-lg font-medium leading-tight text-foreground">
               <Link
@@ -56,7 +68,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
               href={`/blog/${post.slug}`}
               className="mt-4 inline-flex items-center text-sm font-medium text-primary transition group-hover:text-primary/80"
             >
-              Olvass tovább →
+              {t("readMore")} →
             </Link>
           </article>
         ))}

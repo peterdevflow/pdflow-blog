@@ -7,8 +7,7 @@ import type { Locale } from "@/i18n/request";
 import { ReadingProgress } from "@/components/reading-progress";
 import { SocialShare } from "@/components/social-share";
 import { RelatedPosts } from "@/components/related-posts";
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
+import { PostMeta } from "@/components/post-meta";
 
 export async function generateStaticParams() {
   const locales = ["hu", "en"] as const;
@@ -46,7 +45,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       url: postUrl,
-      siteName: "My Blog",
+      siteName: "HH Blog",
       type: "article",
       publishedTime: post.date,
       authors: ["Your Name"],
@@ -85,23 +84,17 @@ export default async function BlogPostPage({
       <ReadingProgress />
       <section className="mx-auto max-w-3xl px-6 py-20">
         <Link
-          href="/blog"
+          href={`/${locale}/blog`}
           className="text-sm font-medium text-muted-foreground transition hover:text-foreground"
         >
           ← Back to posts
         </Link>
         <header className="mt-6">
-          <div className="flex items-center gap-4 text-sm uppercase tracking-wide text-muted-foreground">
-            <time dateTime={post.date}>
-              {dateFormatter.format(new Date(post.date))}
-            </time>
-            {post.readingTime && (
-              <>
-                <span>•</span>
-                <span>{post.readingTime} perc olvasás</span>
-              </>
-            )}
-          </div>
+          <PostMeta
+            date={post.date}
+            readingTime={post.readingTime}
+            slug={post.slug}
+          />
           <h1 className="mt-3 text-4xl font-semibold leading-snug text-foreground">
             {post.title}
           </h1>

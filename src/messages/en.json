@@ -7,13 +7,23 @@
   },
   "blog": {
     "title": "Blog",
+    "subtitle": "Personal notes and experiments with Next.js, MDX, and the web.",
     "search": "Search posts...",
     "allTags": "All tags",
+    "allPosts": "All posts",
     "loading": "Loading posts...",
     "readMore": "Read more",
     "noPosts": "No posts found",
+    "noPostsForSearch": "No posts found for \"{query}\".",
+    "noPostsForTag": "No posts found for the selected tag.",
+    "clearSearch": "Clear search",
     "published": "Published",
-    "readingTime": "min read"
+    "readingTime": "min read",
+    "relatedPosts": "Related Posts",
+    "previous": "Previous",
+    "next": "Next",
+    "showingPage": "Showing page",
+    "of": "of"
   },
   "home": {
     "title": "My Blog",

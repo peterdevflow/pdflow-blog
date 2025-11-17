@@ -62,7 +62,7 @@ export function SocialShare({ title, url }: SocialShareProps) {
             alt="X"
             width={16}
             height={16}
-            className="dark:invert"
+            className="invert"
           />
           {/* <span className="text-sm font-medium">X</span> */}
         </a>
@@ -78,7 +78,7 @@ export function SocialShare({ title, url }: SocialShareProps) {
             alt="Facebook"
             width={16}
             height={16}
-            className="dark:invert"
+            className="invert"
           />
           {/* <span className="text-sm font-medium">Facebook</span> */}
         </a>
@@ -94,7 +94,7 @@ export function SocialShare({ title, url }: SocialShareProps) {
             alt="LinkedIn"
             width={16}
             height={16}
-            className="dark:invert"
+            className="invert"
           />
           {/* <span className="text-sm font-medium">LinkedIn</span> */}
         </a>
