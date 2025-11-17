@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import "./globals.css";
-import { TopNav } from "@/components/top-nav";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Html } from "@/components/html";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,27 +33,22 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const messages = await getMessages();
-
   return (
-    <html lang="hu" suppressHydrationWarning>
+    <Html>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="flex min-h-screen flex-col">
-              <TopNav />
-              <main className="flex-1">{children}</main>
-            </div>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex min-h-screen flex-col">
+            <main className="flex-1">{children}</main>
+          </div>
+        </ThemeProvider>
       </body>
-    </html>
+    </Html>
   );
 }

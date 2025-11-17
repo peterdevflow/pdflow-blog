@@ -1,9 +1,14 @@
 import { Metadata } from "next";
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("about");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
 
   return {
     title: t("title"),
@@ -11,8 +16,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function AboutPage() {
-  const t = useTranslations("about");
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
 
   return (
     <div className="container mx-auto px-6 py-12 max-w-4xl">
@@ -38,9 +48,12 @@ export default function AboutPage() {
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold">{t("skills.title")}</h2>
             <ul className="space-y-2 text-muted-foreground">
-              {t.raw("skills.items").map((item: string, index: number) => (
-                <li key={index}>• {item}</li>
-              ))}
+              <li>• {t("skills.items.0")}</li>
+              <li>• {t("skills.items.1")}</li>
+              <li>• {t("skills.items.2")}</li>
+              <li>• {t("skills.items.3")}</li>
+              <li>• {t("skills.items.4")}</li>
+              <li>• {t("skills.items.5")}</li>
             </ul>
           </div>
         </div>
@@ -58,9 +71,9 @@ export default function AboutPage() {
               {t("contact.email")}
             </a>
             <span className="text-muted-foreground">•</span>
-            <a href="/contact" className="text-primary hover:underline">
+            <Link href="contact" className="text-primary hover:underline">
               {t("contact.contactLink")}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

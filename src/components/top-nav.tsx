@@ -4,12 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu } from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -18,12 +14,6 @@ import {
 } from "@/components/ui/sheet";
 import { ModeToggle } from "@/components/mode-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
-
-const NAV_LINKS = [
-  { href: "/about", label: "Rólam" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Kapcsolat" },
-];
 
 const SOCIAL_LINKS = [
   { href: "https://github.com", icon: "/icons/github.png", label: "GitHub" },
@@ -36,13 +26,28 @@ const SOCIAL_LINKS = [
 ];
 
 export function TopNav() {
+  const t = useTranslations("nav");
+  const pathname = usePathname();
+
+  // Extract current locale from pathname (consistent with language-switcher)
+  const locale = pathname.startsWith("/hu")
+    ? "hu"
+    : pathname.startsWith("/en")
+    ? "en"
+    : "hu";
+
+  const NAV_LINKS = [
+    { href: `/${locale}/about`, label: t("about") },
+    { href: `/${locale}/blog`, label: t("blog") },
+    { href: `/${locale}/contact`, label: t("contact") },
+  ];
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="w-full py-8 px-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between">
         <Link
-          href="/"
+          href={`/${locale}`}
           className="flex items-center gap-4 rounded-full min-h-20 text-sm font-semibold text-foreground transition hover:text-foreground/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <span
@@ -54,22 +59,17 @@ export function TopNav() {
           <span className="text-lg font-semibold tracking-wide">Blog name</span>
         </Link>
 
-        <NavigationMenu className="hidden md:flex">
-          <NavigationMenuList className="gap-4">
-            {NAV_LINKS.map((link) => (
-              <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href={link.href}
-                    className="inline-flex items-center rounded-full px-4 py-2 text-base font-semibold text-muted-foreground transition hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                  >
-                    {link.label}
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
+        <nav className="hidden md:flex items-center gap-4">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="inline-flex items-center rounded-full px-4 py-2 text-base font-semibold text-muted-foreground transition hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
         <div className="hidden md:flex items-center gap-4">
           <LanguageSwitcher />
@@ -94,7 +94,7 @@ export function TopNav() {
 
         <div className="md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
+            <SheetTrigger asChild suppressHydrationWarning>
               <button className="text-muted-foreground hover:text-foreground">
                 <Menu className="h-6 w-6" />
               </button>

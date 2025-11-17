@@ -34,7 +34,7 @@ export function HomeContent({
               <h2 className="text-2xl font-semibold text-foreground">
                 {t("actualPosts")}
               </h2>
-              <span className="px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full dark:bg-green-900 dark:text-green-200">
+              <span className="px-3 py-1 text-sm bg-teal-100 text-teal-800 rounded-full dark:bg-teal-900 dark:text-teal-200">
                 {actualPosts.length}
               </span>
             </div>
@@ -66,7 +66,7 @@ export function HomeContent({
                   </time>
                   <h3 className="mt-3 text-lg font-medium leading-tight text-foreground">
                     <Link
-                      href={`/blog/${post.slug}`}
+                      href={`blog/${post.slug}`}
                       className="focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                     >
                       {post.title}
@@ -78,7 +78,7 @@ export function HomeContent({
                     </p>
                   )}
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`blog/${post.slug}`}
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary transition group-hover:text-primary/80"
                   >
                     Olvass tovább →
@@ -96,7 +96,7 @@ export function HomeContent({
               <h2 className="text-2xl font-semibold text-foreground">
                 {t("projectPosts")}
               </h2>
-              <span className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full dark:bg-blue-900 dark:text-blue-200">
+              <span className="px-3 py-1 text-sm bg-sky-100 text-sky-800 rounded-full dark:bg-sky-900 dark:text-sky-200">
                 {projectPosts.length}
               </span>
             </div>
@@ -132,7 +132,7 @@ export function HomeContent({
                   </time>
                   <h3 className="mt-3 text-lg font-medium leading-tight text-foreground">
                     <Link
-                      href={`/blog/${post.slug}`}
+                      href={`blog/${post.slug}`}
                       className="focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                     >
                       {post.title}
@@ -144,7 +144,7 @@ export function HomeContent({
                     </p>
                   )}
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`blog/${post.slug}`}
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary transition group-hover:text-primary/80"
                   >
                     Olvass tovább →
@@ -187,7 +187,7 @@ export function HomeContent({
                   </time>
                   <h3 className="mt-3 text-lg font-medium leading-tight text-foreground">
                     <Link
-                      href={`/blog/${post.slug}`}
+                      href={`blog/${post.slug}`}
                       className="focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                     >
                       {post.title}
@@ -199,7 +199,7 @@ export function HomeContent({
                     </p>
                   )}
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`blog/${post.slug}`}
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary transition group-hover:text-primary/80"
                   >
                     Olvass tovább →

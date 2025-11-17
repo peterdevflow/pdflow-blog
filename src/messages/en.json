@@ -56,6 +56,32 @@
       "contactLink": "Contact me"
     }
   },
+  "contact": {
+    "title": "Contact Me",
+    "description": "Get in touch! I'd love to hear from you.",
+    "contactLink": "Send a Message",
+    "email": "Feel free to reach out via email",
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send Message",
+      "firstNamePlaceholder": "John",
+      "lastNamePlaceholder": "Doe",
+      "emailPlaceholder": "john@example.com",
+      "subjectPlaceholder": "Project proposal",
+      "messagePlaceholder": "Tell me about your project or just say hello..."
+    },
+    "info": {
+      "location": "Location",
+      "locationValue": "Budapest, Hungary",
+      "responseTime": "Response Time",
+      "responseTimeValue": "Usually within 24 hours",
+      "followMe": "Follow Me"
+    }
+  },
   "404": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist.",

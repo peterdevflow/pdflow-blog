@@ -1,30 +1,43 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Kapcsolat",
-  description: "Lépj kapcsolatba velem. Szeretnék hallani rólad!",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact" });
 
-export default function ContactPage() {
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
+
+export default async function ContactPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact" });
   return (
     <div className="container mx-auto px-6 py-12 max-w-4xl">
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight">
-            Lépj Kapcsolatba
-          </h1>
+          <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Van egy kérdésed, projektötleted, vagy csak üdvözölni szeretnél?
-            Szeretnék hallani rólad!
+            {t("description")}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold">Küldj Üzenetet</h2>
+            <h2 className="text-2xl font-semibold">{t("contactLink")}</h2>
             <form className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -32,14 +45,14 @@ export default function ContactPage() {
                     htmlFor="firstName"
                     className="block text-sm font-medium mb-2"
                   >
-                    Keresztnév
+                    {t("form.firstName")}
                   </label>
                   <input
                     type="text"
                     id="firstName"
                     name="firstName"
                     className="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                    placeholder="János"
+                    placeholder={t("form.firstNamePlaceholder")}
                   />
                 </div>
                 <div>
@@ -47,14 +60,14 @@ export default function ContactPage() {
                     htmlFor="lastName"
                     className="block text-sm font-medium mb-2"
                   >
-                    Vezetéknév
+                    {t("form.lastName")}
                   </label>
                   <input
                     type="text"
                     id="lastName"
                     name="lastName"
                     className="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                    placeholder="Kovács"
+                    placeholder={t("form.lastNamePlaceholder")}
                   />
                 </div>
               </div>
@@ -64,14 +77,14 @@ export default function ContactPage() {
                   htmlFor="email"
                   className="block text-sm font-medium mb-2"
                 >
-                  E-mail
+                  {t("form.email")}
                 </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   className="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="janos@example.com"
+                  placeholder={t("form.emailPlaceholder")}
                 />
               </div>
 
@@ -80,14 +93,14 @@ export default function ContactPage() {
                   htmlFor="subject"
                   className="block text-sm font-medium mb-2"
                 >
-                  Tárgy
+                  {t("form.subject")}
                 </label>
                 <input
                   type="text"
                   id="subject"
                   name="subject"
                   className="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="Projekt ajánlat"
+                  placeholder={t("form.subjectPlaceholder")}
                 />
               </div>
 
@@ -96,42 +109,42 @@ export default function ContactPage() {
                   htmlFor="message"
                   className="block text-sm font-medium mb-2"
                 >
-                  Üzenet
+                  {t("form.message")}
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   rows={6}
                   className="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-                  placeholder="Mesélj a projektedről vagy csak köszönj be..."
+                  placeholder={t("form.messagePlaceholder")}
                 />
               </div>
 
               <Button type="submit" className="w-full">
-                Üzenet Küldése
+                {t("form.submit")}
               </Button>
             </form>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold">Elérhetőségek</h2>
+            <h2 className="text-2xl font-semibold">{t("contactLink")}</h2>
 
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="w-5 h-5 mt-1 text-muted-foreground">📧</div>
                 <div>
-                  <h3 className="font-medium">E-mail</h3>
-                  <p className="text-muted-foreground">hello@example.com</p>
+                  <h3 className="font-medium">{t("form.email")}</h3>
+                  <p className="text-muted-foreground">{t("email")}</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <div className="w-5 h-5 mt-1 text-muted-foreground">📍</div>
                 <div>
-                  <h3 className="font-medium">Helyszín</h3>
+                  <h3 className="font-medium">{t("info.location")}</h3>
                   <p className="text-muted-foreground">
-                    Budapest, Magyarország
+                    {t("info.locationValue")}
                   </p>
                 </div>
               </div>
@@ -139,16 +152,16 @@ export default function ContactPage() {
               <div className="flex items-start gap-3">
                 <div className="w-5 h-5 mt-1 text-muted-foreground">⏰</div>
                 <div>
-                  <h3 className="font-medium">Válaszidő</h3>
+                  <h3 className="font-medium">{t("info.responseTime")}</h3>
                   <p className="text-muted-foreground">
-                    Általában 24 órán belül
+                    {t("info.responseTimeValue")}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="bg-muted/50 rounded-lg p-6">
-              <h3 className="font-semibold mb-3">Kövess Engem</h3>
+              <h3 className="font-semibold mb-3">{t("info.followMe")}</h3>
               <div className="flex gap-4">
                 <a
                   href="https://github.com"

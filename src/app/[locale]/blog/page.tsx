@@ -34,7 +34,7 @@ export default function BlogPage() {
         console.error("Error fetching posts:", error);
         setLoading(false);
       });
-  }, []);
+  }, [locale]);
 
   const allowedTags = useMemo(
     () => ["Actual", "Life", "Projects", "Tech", "Work", "Writing"],

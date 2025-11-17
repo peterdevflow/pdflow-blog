@@ -35,7 +35,7 @@
     "subtitle": "Szia! Egy szenvedélyes fejlesztő vagyok, aki imád csodálatos webes élményeket létrehozni.",
     "journey": {
       "title": "Az Utam",
-      "description1": "Több éve vagyok jelen a webfejlesztés világában, folyamatosan tanulok és alkalmazkodom az új technológiákhoz. Az utam egyszerű HTML-lel és CSS-szel kezdődött, és modern keretrendszerekkel és eszközökkel bővült.",
+      "description1": "Több éve vagyok a webfejlesztés világában, folyamatosan tanulok és alkalmazkodom az új technológiákhoz. Utam egyszerű HTML-lel és CSS-szel kezdődött, és kibővült modern keretrendszerekre és eszközökre.",
       "description2": "Amikor nem kódolok, új technológiák felfedezésével, nyílt forráskódú projektekhez való hozzájárulással vagy tudásmegosztással találkozhatsz a fejlesztői közösségben."
     },
     "skills": {
@@ -54,6 +54,32 @@
       "description": "Mindig nyitott vagyok új lehetőségekre és együttműködésekre. Nyugodtan lépj kapcsolatba, ha szeretnél együtt dolgozni vagy csak technológiáról beszélgetni!",
       "email": "hello@example.com",
       "contactLink": "Kapcsolatfelvétel"
+    }
+  },
+  "contact": {
+    "title": "Kapcsolat",
+    "description": "Lépj kapcsolatba velem! Szeretnék hallani rólad.",
+    "contactLink": "Üzenet Küldése",
+    "email": "Nyugodtan írj emailt",
+    "form": {
+      "firstName": "Keresztnév",
+      "lastName": "Vezetéknév",
+      "email": "E-mail",
+      "subject": "Tárgy",
+      "message": "Üzenet",
+      "submit": "Üzenet Küldése",
+      "firstNamePlaceholder": "János",
+      "lastNamePlaceholder": "Kovács",
+      "emailPlaceholder": "janos@example.com",
+      "subjectPlaceholder": "Projekt ajánlat",
+      "messagePlaceholder": "Mesélj a projektedről vagy csak köszönj be..."
+    },
+    "info": {
+      "location": "Helyszín",
+      "locationValue": "Budapest, Magyarország",
+      "responseTime": "Válaszidő",
+      "responseTimeValue": "Általában 24 órán belül",
+      "followMe": "Kövess Engem"
     }
   },
   "404": {
